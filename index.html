@@ -1,0 +1,2030 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>Aprende Hiragana - Fusión Nemotécnica Visual</title>
+  
+  <!-- Mobile & PWA Meta Tags -->
+  <meta name="theme-color" content="#e11d48">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="Hiragana Nemotécnico">
+  <meta name="application-name" content="Hiragana Nemotécnico">
+  
+  <link rel="apple-touch-icon" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192'><rect width='192' height='192' rx='42' fill='%23e11d48'/><text x='96' y='135' font-family='sans-serif' font-weight='bold' font-size='108' text-anchor='middle' fill='white'>%E3%81%82</text></svg>">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='50' fill='%23e11d48'/><text x='50' y='72' font-family='sans-serif' font-size='62' font-weight='bold' text-anchor='middle' fill='white'>%E3%81%82</text></svg>">
+  <link rel="manifest" href="manifest.json">
+
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('./sw.js').catch(() => {});
+      });
+    }
+  </script>
+
+  <style>
+    :root {
+      --primary: #e11d48;
+      --primary-light: #ffe4e6;
+      --primary-dark: #9f1239;
+      --primary-focus: #f43f5e;
+      --bg: #fdfaf7;
+      --surface: #ffffff;
+      --slate-50: #f8fafc;
+      --slate-100: #f1f5f9;
+      --slate-200: #e2e8f0;
+      --slate-300: #cbd5e1;
+      --slate-500: #64748b;
+      --slate-700: #334155;
+      --slate-800: #1e293b;
+      --slate-900: #0f172a;
+      --safe-bottom: env(safe-area-inset-bottom, 0px);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+      user-select: none;
+    }
+
+    body {
+      background-color: var(--bg);
+      color: var(--slate-800);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      padding-bottom: calc(4.5rem + var(--safe-bottom));
+    }
+
+    @media (min-width: 768px) {
+      body {
+        padding-bottom: 2rem;
+      }
+    }
+
+    .font-kana {
+      font-family: "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Yu Gothic", "Meiryo", sans-serif;
+    }
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 40;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--slate-200);
+    }
+
+    .header-inner {
+      max-width: 72rem;
+      margin: 0 auto;
+      padding: 0.75rem 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+
+    .brand-logo {
+      width: 2.4rem;
+      height: 2.4rem;
+      border-radius: 0.75rem;
+      background: linear-gradient(135deg, var(--primary), var(--primary-focus));
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 1.3rem;
+      box-shadow: 0 4px 12px rgba(225, 29, 72, 0.25);
+    }
+
+    .brand-title {
+      font-size: 1.05rem;
+      font-weight: 800;
+      color: var(--slate-900);
+      letter-spacing: -0.02em;
+      line-height: 1.1;
+    }
+
+    .brand-sub {
+      font-size: 0.7rem;
+      color: var(--slate-500);
+      font-weight: 600;
+    }
+
+    .desktop-nav {
+      display: none;
+      gap: 0.35rem;
+      background: var(--slate-100);
+      padding: 0.25rem;
+      border-radius: 0.75rem;
+    }
+
+    @media (min-width: 768px) {
+      .desktop-nav {
+        display: flex;
+      }
+    }
+
+    .nav-btn {
+      padding: 0.45rem 0.9rem;
+      border-radius: 0.6rem;
+      font-size: 0.85rem;
+      font-weight: 700;
+      border: none;
+      cursor: pointer;
+      background: transparent;
+      color: var(--slate-700);
+      transition: all 0.2s;
+    }
+
+    .nav-btn.active {
+      background: white;
+      color: var(--primary);
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+    }
+
+    /* Barra inferior móvil */
+    .mobile-tabbar {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      z-index: 50;
+      background: rgba(255, 255, 255, 0.96);
+      backdrop-filter: blur(12px);
+      border-top: 1px solid var(--slate-200);
+      display: flex;
+      justify-content: space-around;
+      padding: 0.35rem 0.5rem calc(0.35rem + var(--safe-bottom));
+    }
+
+    @media (min-width: 768px) {
+      .mobile-tabbar {
+        display: none;
+      }
+    }
+
+    .tab-btn {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background: none;
+      border: none;
+      gap: 0.15rem;
+      padding: 0.25rem 0.5rem;
+      color: var(--slate-500);
+      cursor: pointer;
+      font-size: 0.68rem;
+      font-weight: 700;
+      min-width: 4rem;
+      border-radius: 0.5rem;
+      transition: color 0.15s ease;
+    }
+
+    .tab-btn span.tab-icon {
+      font-size: 1.25rem;
+    }
+
+    .tab-btn.active {
+      color: var(--primary);
+    }
+
+    main {
+      flex: 1;
+      max-width: 72rem;
+      width: 100%;
+      margin: 0 auto;
+      padding: 1rem;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    /* Banner Superior */
+    .banner {
+      background: linear-gradient(120deg, #fff1f2, #ffffff, #fef2f2);
+      padding: 1rem 1.2rem;
+      border-radius: 1.25rem;
+      border: 1px solid #fecdd3;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      margin-bottom: 1rem;
+    }
+
+    @media (min-width: 640px) {
+      .banner {
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+      }
+    }
+
+    .mode-switch {
+      display: flex;
+      background: rgba(226, 232, 240, 0.6);
+      padding: 0.2rem;
+      border-radius: 0.75rem;
+      gap: 0.2rem;
+      width: 100%;
+      max-width: 20rem;
+    }
+
+    .mode-btn {
+      flex: 1;
+      padding: 0.4rem;
+      font-size: 0.75rem;
+      font-weight: 700;
+      border: none;
+      border-radius: 0.6rem;
+      cursor: pointer;
+      background: transparent;
+      color: var(--slate-700);
+      transition: all 0.2s;
+      text-align: center;
+    }
+
+    .mode-btn.active {
+      background: white;
+      color: var(--primary);
+      box-shadow: 0 2px 4px rgba(0,0,0,0.06);
+    }
+
+    /* Filtros y Búsqueda */
+    .filter-panel {
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+      margin-bottom: 1rem;
+    }
+
+    @media (min-width: 640px) {
+      .filter-panel {
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+      }
+    }
+
+    .chips-scroller {
+      display: flex;
+      gap: 0.4rem;
+      overflow-x: auto;
+      scrollbar-width: none;
+      padding-bottom: 0.2rem;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .chips-scroller::-webkit-scrollbar {
+      display: none;
+    }
+
+    .chip-btn {
+      padding: 0.4rem 0.75rem;
+      border-radius: 0.75rem;
+      font-size: 0.75rem;
+      font-weight: 700;
+      border: 1px solid var(--slate-200);
+      cursor: pointer;
+      white-space: nowrap;
+      background: white;
+      color: var(--slate-700);
+      transition: all 0.15s;
+    }
+
+    .chip-btn.active {
+      background: var(--primary);
+      color: white;
+      border-color: var(--primary);
+      box-shadow: 0 3px 8px rgba(225, 29, 72, 0.25);
+    }
+
+    .search-input {
+      width: 100%;
+      max-width: 18rem;
+      padding: 0.5rem 0.85rem;
+      border-radius: 0.75rem;
+      border: 1px solid var(--slate-200);
+      background: white;
+      font-size: 0.85rem;
+      outline: none;
+    }
+
+    .search-input:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(225, 29, 72, 0.15);
+    }
+
+    /* Grid de Hiraganas */
+    .kana-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 0.75rem;
+    }
+
+    @media (min-width: 480px) { .kana-grid { grid-template-columns: repeat(3, 1fr); } }
+    @media (min-width: 768px) { .kana-grid { grid-template-columns: repeat(4, 1fr); gap: 1rem; } }
+    @media (min-width: 1024px) { .kana-grid { grid-template-columns: repeat(6, 1fr); } }
+
+    .kana-card {
+      background: white;
+      border-radius: 1.25rem;
+      padding: 0.85rem;
+      border: 1px solid var(--slate-200);
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.02);
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      position: relative;
+      transition: transform 0.15s, border-color 0.15s, box-shadow 0.15s;
+    }
+
+    .kana-card:active {
+      transform: scale(0.98);
+    }
+
+    @media (hover: hover) {
+      .kana-card:hover {
+        transform: translateY(-3px);
+        border-color: #fecdd3;
+        box-shadow: 0 8px 18px rgba(225, 29, 72, 0.1);
+      }
+    }
+
+    .card-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.35rem;
+    }
+
+    .romaji-pill {
+      font-size: 0.85rem;
+      font-weight: 900;
+      color: var(--primary);
+      background: var(--primary-light);
+      padding: 0.15rem 0.5rem;
+      border-radius: 0.4rem;
+      font-family: monospace;
+    }
+
+    .concept-pill {
+      font-size: 0.7rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      color: var(--slate-500);
+      letter-spacing: 0.02em;
+    }
+
+    .kana-svg-box {
+      width: 100%;
+      aspect-ratio: 1/1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .kana-svg-box svg {
+      width: 100%;
+      height: 100%;
+    }
+
+    .card-nemotecnia {
+      margin-top: 0.4rem;
+      padding-top: 0.4rem;
+      border-top: 1px dashed var(--slate-200);
+      font-size: 0.7rem;
+      font-weight: 600;
+      color: var(--slate-700);
+      line-height: 1.25;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      min-height: 1.8rem;
+    }
+
+    /* Modal de Detalle */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 60;
+      background: rgba(15, 23, 42, 0.7);
+      backdrop-filter: blur(5px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+    }
+
+    .modal-window {
+      background: white;
+      width: 100%;
+      max-width: 28rem;
+      border-radius: 1.5rem;
+      padding: 1.25rem;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+      position: relative;
+    }
+
+    .close-btn {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      width: 2.2rem;
+      height: 2.2rem;
+      border-radius: 50%;
+      border: none;
+      background: var(--slate-100);
+      font-size: 1rem;
+      font-weight: bold;
+      color: var(--slate-700);
+      cursor: pointer;
+    }
+
+    /* Sección Vocabulario */
+    .vocab-container {
+      background: white;
+      border-radius: 1.25rem;
+      border: 1px solid var(--slate-200);
+      padding: 1rem;
+    }
+
+    .vocab-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 0.75rem;
+    }
+
+    @media (min-width: 640px) {
+      .vocab-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+    @media (min-width: 1024px) {
+      .vocab-grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+
+    .vocab-card {
+      background: var(--slate-50);
+      border-radius: 1rem;
+      padding: 0.75rem 1rem;
+      border: 1px solid var(--slate-200);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.5rem;
+      transition: background 0.15s;
+    }
+
+    .vocab-card:hover {
+      background: #fff1f2;
+      border-color: #fecdd3;
+    }
+
+    .vocab-main {
+      font-size: 1.35rem;
+      font-weight: 800;
+      color: var(--slate-900);
+    }
+
+    .vocab-reading {
+      font-size: 0.8rem;
+      color: var(--primary);
+      font-weight: 700;
+      font-family: monospace;
+    }
+
+    .vocab-meaning {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--slate-600);
+    }
+
+    .audio-btn {
+      width: 2.4rem;
+      height: 2.4rem;
+      border-radius: 50%;
+      border: 1px solid var(--slate-200);
+      background: white;
+      color: var(--primary);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1rem;
+      flex-shrink: 0;
+    }
+
+    .audio-btn:active {
+      transform: scale(0.92);
+      background: var(--primary-light);
+    }
+
+    /* Pizarra de Trazo */
+    .canvas-wrap {
+      max-width: 320px;
+      margin: 0 auto;
+      position: relative;
+      aspect-ratio: 1/1;
+      border-radius: 1.25rem;
+      border: 2px dashed var(--slate-300);
+      background: white;
+      overflow: hidden;
+      touch-action: none;
+    }
+
+    #drawing-canvas {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 10;
+      cursor: crosshair;
+    }
+
+    .canvas-guide {
+      position: absolute;
+      inset: 0;
+      z-index: 5;
+      padding: 1.5rem;
+      opacity: 0.35;
+      pointer-events: none;
+    }
+
+    /* Flashcards */
+    .flashcard-box {
+      max-width: 24rem;
+      margin: 0 auto;
+      perspective: 1000px;
+    }
+
+    .flashcard-inner {
+      width: 100%;
+      height: 25rem;
+      position: relative;
+      transform-style: preserve-3d;
+      transition: transform 0.4s ease;
+      border-radius: 1.5rem;
+      cursor: pointer;
+    }
+
+    .flashcard-inner.flipped {
+      transform: rotateY(180deg);
+    }
+
+    .fc-face {
+      position: absolute;
+      inset: 0;
+      background: white;
+      border-radius: 1.5rem;
+      border: 2px solid var(--slate-200);
+      padding: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
+      backface-visibility: hidden;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+    }
+
+    .fc-back {
+      transform: rotateY(180deg);
+      border-color: var(--primary-focus);
+    }
+
+    /* Toast */
+    #toast {
+      position: fixed;
+      bottom: calc(5rem + var(--safe-bottom));
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--slate-900);
+      color: white;
+      font-size: 0.8rem;
+      font-weight: 700;
+      padding: 0.6rem 1.2rem;
+      border-radius: 9999px;
+      z-index: 70;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header>
+    <div class="header-inner">
+      <div class="brand">
+        <div class="brand-logo font-kana">あ</div>
+        <div>
+          <h1 class="brand-title">Hiragana Visual</h1>
+          <p class="brand-sub">Nemotecnia Gráfica & Vocabulario</p>
+        </div>
+      </div>
+
+      <nav class="desktop-nav">
+        <button onclick="setTab('tablero')" id="desk-btn-tablero" class="nav-btn active">Tablero</button>
+        <button onclick="setTab('vocabulario')" id="desk-btn-vocabulario" class="nav-btn">Vocabulario</button>
+        <button onclick="setTab('tarjetas')" id="desk-btn-tarjetas" class="nav-btn">Tarjetas 3D</button>
+        <button onclick="setTab('pizarra')" id="desk-btn-pizarra" class="nav-btn">Pizarra</button>
+      </nav>
+    </div>
+  </header>
+
+  <!-- CONTENIDO PRINCIPAL -->
+  <main>
+    <!-- VISTA 1: TABLERO DE CARACTERES -->
+    <section id="view-tablero">
+      <div class="banner">
+        <div>
+          <span style="font-size: 0.7rem; font-weight: 800; color: var(--primary); text-transform: uppercase;">Nemotecnia Activa</span>
+          <h2 style="font-size: 1.1rem; font-weight: 800; color: var(--slate-900); margin-top: 0.15rem;">¿Cómo quieres ver el trazo?</h2>
+        </div>
+        <div class="mode-switch">
+          <button onclick="changeDisplayMode('fusion')" id="m-btn-fusion" class="mode-btn active">✨ Fusión</button>
+          <button onclick="changeDisplayMode('dibujo')" id="m-btn-dibujo" class="mode-btn">🎨 Solo Dibujo</button>
+          <button onclick="changeDisplayMode('trazo')" id="m-btn-trazo" class="mode-btn">✍️ Solo Trazo</button>
+        </div>
+      </div>
+
+      <div class="filter-panel">
+        <div class="chips-scroller" id="row-filter-chips"></div>
+        <input type="text" id="search-box" oninput="applyFilters()" placeholder="Buscar: sol, k, sushi, manzana..." class="search-input">
+      </div>
+
+      <div id="kana-card-grid" class="kana-grid"></div>
+    </section>
+
+    <!-- VISTA 2: DICCIONARIO EXTENSO DE VOCABULARIO -->
+    <section id="view-vocabulario" class="hidden">
+      <div style="margin-bottom: 1rem;">
+        <h2 style="font-size: 1.25rem; font-weight: 800; color: var(--slate-900);">Vocabulario Fundamental por Temas</h2>
+        <p style="font-size: 0.8rem; color: var(--slate-500); margin-top: 0.2rem;">Palabras escritas exclusivamente en Hiragana para practicar lectura real con audio nativo.</p>
+      </div>
+
+      <div class="filter-panel">
+        <div class="chips-scroller" id="vocab-category-chips"></div>
+        <input type="text" id="vocab-search" oninput="applyVocabFilter()" placeholder="Buscar palabra en español o japonés..." class="search-input">
+      </div>
+
+      <div class="vocab-container">
+        <div id="vocab-card-grid" class="vocab-grid"></div>
+      </div>
+    </section>
+
+    <!-- VISTA 3: TARJETAS 3D -->
+    <section id="view-tarjetas" class="hidden">
+      <div style="text-align: center; margin-bottom: 1rem;">
+        <span id="fc-counter" style="font-size: 0.8rem; font-weight: 800; color: var(--slate-500); text-transform: uppercase;">Tarjeta 1 de 46</span>
+      </div>
+
+      <div class="flashcard-box">
+        <div id="flashcard-element" class="flashcard-inner" onclick="flipFlashcard()">
+          <!-- Cara frontal -->
+          <div class="fc-face">
+            <div style="width: 100%; display: flex; justify-content: space-between; align-items: center;">
+              <span id="fc-f-romaji" class="romaji-pill" style="font-size: 1.2rem;">a</span>
+              <span style="font-size: 0.7rem; font-weight: 700; color: var(--slate-400);">Toca para revelar regla</span>
+            </div>
+            <div class="kana-svg-box" id="fc-f-svg" style="width: 13rem; height: 13rem;"></div>
+            <span style="font-size: 0.75rem; color: var(--slate-400);">¿Qué objeto o imagen representa?</span>
+          </div>
+
+          <!-- Cara posterior -->
+          <div class="fc-face fc-back">
+            <div style="width: 100%; display: flex; justify-content: space-between; align-items: center;">
+              <div style="display: flex; align-items: baseline; gap: 0.5rem;">
+                <span id="fc-b-kana" class="font-kana" style="font-size: 1.8rem; font-weight: 900; color: var(--primary);">あ</span>
+                <span id="fc-b-romaji" style="font-weight: 800; color: var(--slate-600);">/a/</span>
+              </div>
+              <span id="fc-b-badge" class="concept-pill" style="background: var(--primary-light); color: var(--primary); padding: 0.2rem 0.5rem; border-radius: 0.4rem;">MANZANA</span>
+            </div>
+            <div class="kana-svg-box" id="fc-b-svg" style="width: 11rem; height: 11rem;"></div>
+            <p id="fc-b-mnemonic" style="font-size: 0.85rem; font-weight: 600; text-align: center; color: var(--slate-700);"></p>
+            <button onclick="event.stopPropagation(); playCurrentKanaAudio()" class="chip-btn active" style="padding: 0.4rem 1rem;">🔊 Escuchar</button>
+          </div>
+        </div>
+      </div>
+
+      <div style="display: flex; justify-content: center; gap: 1rem; margin-top: 1.5rem;">
+        <button onclick="prevCard()" class="chip-btn" style="padding: 0.6rem 1.2rem; font-weight: 800;">← Anterior</button>
+        <button onclick="shuffleDeck()" class="chip-btn">🔀 Mezclar</button>
+        <button onclick="nextCard()" class="chip-btn active" style="padding: 0.6rem 1.2rem; font-weight: 800;">Siguiente →</button>
+      </div>
+    </section>
+
+    <!-- VISTA 4: PIZARRA DE TRAZO -->
+    <section id="view-pizarra" class="hidden">
+      <div style="max-width: 24rem; margin: 0 auto; text-align: center;">
+        <h2 style="font-size: 1.15rem; font-weight: 800; color: var(--slate-900); margin-bottom: 0.2rem;">Pizarra Caligráfica</h2>
+        <p style="font-size: 0.8rem; color: var(--slate-500); margin-bottom: 1rem;">Sigue las curvas del dibujo para memorizar el movimiento natural de tu mano.</p>
+
+        <div style="display: flex; justify-content: center; gap: 0.5rem; margin-bottom: 1rem;">
+          <select id="pizarra-select" onchange="changePizarraTarget(this.value)" style="padding: 0.45rem 0.85rem; border-radius: 0.75rem; border: 1px solid var(--slate-300); font-weight: 700; color: var(--primary); font-size: 0.9rem;"></select>
+          <button onclick="playPizarraAudio()" class="chip-btn">🔊 Oír</button>
+        </div>
+
+        <div class="canvas-wrap">
+          <div id="pizarra-guide" class="canvas-guide"></div>
+          <canvas id="drawing-canvas"></canvas>
+        </div>
+
+        <div style="display: flex; justify-content: space-between; margin-top: 1rem;">
+          <button onclick="clearCanvas()" class="chip-btn">Limpiar trazo</button>
+          <button onclick="togglePizarraGuide()" id="btn-guide-toggle" class="chip-btn">Ocultar Guía</button>
+          <button onclick="nextPizarraKana()" class="chip-btn active">Siguiente →</button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- MODAL DE DETALLE NEMOTÉCNICO -->
+  <div id="modal-detail" class="modal-overlay hidden" onclick="closeModal(event)">
+    <div class="modal-window" onclick="event.stopPropagation()">
+      <button class="close-btn" onclick="closeModalDirect()">✕</button>
+      
+      <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.5rem;">
+        <span id="m-kana" class="font-kana" style="font-size: 2.2rem; font-weight: 900; color: var(--primary);">あ</span>
+        <div>
+          <div style="display: flex; align-items: baseline; gap: 0.4rem;">
+            <span id="m-romaji" style="font-size: 1.25rem; font-weight: 800; font-family: monospace;">a</span>
+            <span id="m-concept" class="concept-pill" style="color: var(--primary); font-weight: 900;">MANZANA</span>
+          </div>
+          <span id="m-category" style="font-size: 0.7rem; color: var(--slate-500); font-weight: 700;">Familia de Vocales</span>
+        </div>
+        <button onclick="playModalKana()" class="audio-btn" style="margin-left: auto;">🔊</button>
+      </div>
+
+      <div id="m-svg-stage" class="kana-svg-box" style="height: 13rem; background: var(--slate-50); border-radius: 1rem; border: 1px solid var(--slate-200); margin: 0.75rem 0;"></div>
+
+      <div style="margin-bottom: 0.75rem; background: var(--slate-100); padding: 0.6rem; border-radius: 0.75rem;">
+        <label style="font-size: 0.7rem; font-weight: 700; color: var(--slate-600); display: flex; justify-content: space-between; margin-bottom: 0.25rem;">
+          <span>Desvanecer Trazo</span>
+          <span>Fusión</span>
+          <span>Desvanecer Dibujo</span>
+        </label>
+        <input type="range" id="m-slider" min="0" max="100" value="50" oninput="updateModalSlider(this.value)" style="width: 100%; accent-color: var(--primary); cursor: pointer;">
+      </div>
+
+      <div style="background: #fff1f2; border: 1px solid #fecdd3; padding: 0.75rem; border-radius: 0.75rem;">
+        <h4 style="font-size: 0.8rem; font-weight: 800; color: var(--primary-dark); margin-bottom: 0.2rem;">Regla de Retención Visual:</h4>
+        <p id="m-desc" style="font-size: 0.85rem; color: var(--slate-800); line-height: 1.35;"></p>
+      </div>
+
+      <div style="display: flex; justify-content: flex-end; gap: 0.5rem; margin-top: 1rem;">
+        <button onclick="goToPizarraFromModal()" class="chip-btn">✍️ Dibujar en Pizarra</button>
+        <button onclick="closeModalDirect()" class="chip-btn active">Entendido</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- NAVEGACIÓN MÓVIL (TABBAR INFERIOR) -->
+  <nav class="mobile-tabbar">
+    <button onclick="setTab('tablero')" id="m-tab-tablero" class="tab-btn active">
+      <span class="tab-icon">🎴</span>
+      <span>Tablero</span>
+    </button>
+    <button onclick="setTab('vocabulario')" id="m-tab-vocabulario" class="tab-btn">
+      <span class="tab-icon">📚</span>
+      <span>Vocabulario</span>
+    </button>
+    <button onclick="setTab('tarjetas')" id="m-tab-tarjetas" class="tab-btn">
+      <span class="tab-icon">🔄</span>
+      <span>Tarjetas</span>
+    </button>
+    <button onclick="setTab('pizarra')" id="m-tab-pizarra" class="tab-btn">
+      <span class="tab-icon">✏️</span>
+      <span>Pizarra</span>
+    </button>
+  </nav>
+
+  <div id="toast">Aviso</div>
+
+  <script>
+    /* ==========================================================================
+1. BASE DE DATOS NEMOTÉCNICA COMPLETA DE 46 HIRAGANA (ILUSTRACIONES PRECISAS)
+       ========================================================================== */
+    const KANA_DATA = [
+      // Fila Vocales (A, I, U, E, O)
+      {
+        kana: 'あ', romaji: 'a', word: 'manzana', row: 'vowels',
+        desc: 'Una manzana roja redonda: la cruz superior forma el rabillo con su hoja, y el bucle curvo dibuja el cuerpo carnoso de la fruta (Apple / Manzana).',
+        drawSVG: (opKana, opDraw) => `
+          <svg viewBox="0 0 100 100">
+            <g opacity="${opDraw}" stroke="#e11d48" stroke-width="2.5" fill="none">
+              <!-- Manzana y hoja -->
+              <ellipse cx="50" cy="58" rx="26" ry="24" fill="#ffe4e6" stroke="#e11d48" stroke-width="2.5"/>
+              <path d="M 48 34 Q 48 18 56 16" stroke="#15803d" stroke-width="3" stroke-linecap="round"/>
+              <path d="M 52 20 Q 64 16 66 24 Z" fill="#86efac" stroke="#15803d" stroke-width="1.5"/>
+              <circle cx="42" cy="50" r="2.5" fill="#fda4af"/>
+            </g>
+            <text x="50" y="78" text-anchor="middle" font-family="'Hiragino Sans', sans-serif" font-size="78" fill="#0f172a" font-weight="900" opacity="${opKana}">あ</text>
+          </svg>`
+      },
+      {
+        kana: 'い', romaji: 'i', word: 'anguilas', row: 'vowels',
+        desc: 'Dos anguilas (Iruka / Ígor) nadando en paralelo: la izquierda más larga con la cola curvada hacia arriba y la derecha acompañándola.',
+        drawSVG: (opKana, opDraw) => `
+          <svg viewBox="0 0 100 100">
+            <g opacity="${opDraw}" stroke="#0284c7" stroke-width="2" fill="none">
+              <path d="M 28 22 Q 22 55 36 78" stroke="#0284c7" stroke-width="6" stroke-linecap="round"/>
+              <circle cx="28" cy="24" r="2" fill="#fff"/>
+              <path d="M 68 34 Q 72 58 70 70" stroke="#38bdf8" stroke-width="6" stroke-linecap="round"/>
+              <circle cx="68" cy="36" r="2" fill="#fff"/>
+              <path d="M 44 42 Q 50 48 44 54" stroke="#93c5fd" stroke-width="2"/>
+            </g>
+            <text x="50" y="76" text-anchor="middle" font-family="'Hiragino Sans', sans-serif" font-size="78" fill="#0f172a" font-weight="900" opacity="${opKana}">い</text>
+          </svg>`
+      },
+      {
+        kana: 'う', romaji: 'u', word: 'uf, qué peso', row: 'vowels',
+        desc: 'Una persona inclinada hacia adelante diciendo "¡Uff!" porque le cae una piedra pesada en la espalda.',
+        drawSVG: (opKana, opDraw) => `
+          <svg viewBox="0 0 100 100">
+            <g opacity="${opDraw}" stroke="#ea580c" stroke-width="2" fill="none">
+              <ellipse cx="48" cy="22" rx="9" ry="5" fill="#fed7aa" stroke="#c2410c" stroke-width="2"/>
+              <path d="M 32 38 Q 72 38 68 62 Q 62 88 34 86" stroke="#ea580c" stroke-width="4" stroke-linecap="round"/>
+              <circle cx="30" cy="50" r="4" fill="#f97316"/>
+            </g>
+            <text x="50" y="78" text-anchor="middle" font-family="'Hiragino Sans', sans-serif" font-size="78" fill="#0f172a" font-weight="900" opacity="${opKana}">う</text>
+          </svg>`
+      },
+      {
+        kana: 'え', romaji: 'e', word: 'escalador', row: 'vowels',
+        desc: 'Un escalador con su casco arriba esforzándose en una cuesta zigzagueante hasta la cima.',
+        drawSVG: (opKana, opDraw) => `
+          <svg viewBox="0 0 100 100">
+            <g opacity="${opDraw}" stroke="#d97706" stroke-width="2" fill="none">
+              <circle cx="48" cy="18" r="6" fill="#fef08a" stroke="#ca8a04" stroke-width="2"/>
+              <path d="M 32 40 L 66 40 L 32 78 L 78 74" stroke="#d97706" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+              <line x1="18" y1="84" x2="88" y2="84" stroke="#94a3b8" stroke-dasharray="3 3"/>
+            </g>
+            <text x="50" y="76" text-anchor="middle" font-family="'Hiragino Sans', sans-serif" font-size="78" fill="#0f172a" font-weight="900" opacity="${opKana}">え</text>
+          </svg>`
+      },
+      {
+        kana: 'お', romaji: 'o', word: 'ovni', row: 'vowels',
+        desc: 'Un platillo volador / Ovni en órbita alrededor de un planeta: el núcleo redondeado y el rayo o satélite que flota arriba a la derecha.',
+        drawSVG: (opKana, opDraw) => `
+          <svg viewBox="0 0 100 100">
+            <g opacity="${opDraw}" stroke="#7c3aed" stroke-width="2" fill="none">
+              <ellipse cx="48" cy="62" rx="22" ry="16" fill="#ede9fe" stroke="#7c3aed" stroke-width="2.5"/>
+              <line x1="22" y1="36" x2="68" y2="36" stroke="#6d28d9" stroke-width="3"/>
+              <circle cx="78" cy="28" r="5" fill="#a78bfa" stroke="#6d28d9" stroke-width="2"/>
+              <line x1="74" y1="32" x2="64" y2="44" stroke="#c4b5fd" stroke-dasharray="2 2"/>
+            </g>
+            <text x="50" y="78" text-anchor="middle" font-family="'Hiragino Sans', sans-serif" font-size="78" fill="#0f172a" font-weight="900" opacity="${opKana}">お</text>
+          </svg>`
+      },
+
+      // Fila K (Ka, Ki, Ku, Ke, Ko)
+      {
+        kana: 'か', romaji: 'ka', word: 'karateca', row: 'k',
+        desc: 'Un karateca partiendo una tabla: su brazo principal tira el golpe curvo, y la gota superior derecha es la madera astillada volando.',
+        drawSVG: (opKana, opDraw) => `
+          <svg viewBox="0 0 100 100">
+            <g opacity="${opDraw}" stroke="#dc2626" stroke-width="2" fill="none">
+              <circle cx="36" cy="28" r="7" fill="#fee2e2" stroke="#dc2626" stroke-width="2"/>
+              <path d="M 40 40 L 40 82" stroke="#dc2626" stroke-width="4"/>
+              <path d="M 24 50 Q 55 45 44 80" stroke="#b91c1c" stroke-width="3"/>
+              <path d="M 72 26 L 82 38" stroke="#ef4444" stroke-width="4" stroke-linecap="round"/>
+            </g>
+            <text x="50" y="78" text-anchor="middle" font-family="'Hiragino Sans', sans-serif" font-size="78" fill="#0f172a" font-weight="900" opacity="${opKana}">か</text>
+          </svg>`
+      },
+      {
+        kana: 'き', romaji: 'ki', word: 'llave (key)', row: 'k',
+        desc: 'Una llave antigua de doble ranura horizontal cortando el mástil, terminando en la empuñadura curvada inferior.',
+        drawSVG: (opKana, opDraw) => `
+          <svg viewBox="0 0 100 100">
+            <g opacity="${opDraw}" stroke="#ca8a04" stroke-width="2" fill="none">
+              <line x1="24" y1="36" x2="76" y2="36" stroke="#ca8a04" stroke-width="4"/>
+              <line x1="26" y1="50" x2="74" y2="50" stroke="#ca8a04" stroke-width="4"/>
+              <line x1="60" y1="20" x2="38" y2="78" stroke="#a16207" stroke-width="4"/>
+              <ellipse cx="44" cy="74" rx="14" ry="8" stroke="#ca8a04" stroke-width="3"/>
+            </g>
+            <text x="50" y="76" text-anchor="middle" font-family="'Hiragino Sans', sans-serif" font-size="78" fill="#0f172a" font-weight="900" opacity="${opKana}">き</text>
+          </svg>`
+      },
+      {
+        kana: 'く', romaji: 'ku', word: 'cuco / pico', row: 'k',
+        desc: 'El pico abierto de un pájaro cuco comiendo semillas (< ángulo agudo).',
+        drawSVG: (opKana, opDraw) => `
+          <svg viewBox="0 0 100 100">
+            <g opacity="${opDraw}" stroke="#f59e0b" stroke-width="2" fill="none">
+              <path d="M 68 24 L 28 50 L 68 76" stroke="#d97706" stroke-width="5" stroke-linejoin="round" stroke-linecap="round"/>
+              <circle cx="68" cy="20" r="4" fill="#0f172a"/>
+              <circle cx="58" cy="50" r="3" fill="#ea580c"/>
+            </g>
+            <text x="50" y="74" text-anchor="middle" font-family="'Hiragino Sans', sans-serif" font-size="82" fill="#0f172a" font-weight="900" opacity="${opKana}">く</text>
+          </svg>`
+      },
+      {
+        kana: 'け', romaji: 'ke', word: 'keg (barril)', row: 'k',
+        desc: 'Un poste vertical con un hacha rompiendo un barril de madera (keg).',
+        drawSVG: (opKana, opDraw) => `
+          <svg viewBox="0 0 100 100">
+            <g opacity="${opDraw}" stroke="#854d0e" stroke-width="2" fill="none">
+              <line x1="28" y1="20" x2="28" y2="82" stroke="#854d0e" stroke-width="4" stroke-linecap="round"/>
+              <rect x="52" y="32" width="26" height="42" rx="6" fill="#fef3c7" stroke="#a16207" stroke-width="2.5"/>
+              <line x1="52" y1="46" x2="78" y2="46" stroke="#a16207" stroke-width="2"/>
+              <line x1="52" y1="60" x2="78" y2="60" stroke="#a16207" stroke-width="2"/>
+            </g>
+            <text x="50" y="78" text-anchor="middle" font-family="'Hiragino Sans', sans-serif" font-size="78" fill="#0f172a" font-weight="900" opacity="${opKana}">け</text>
+          </svg>`
+      },
+      {
+        kana: 'こ', romaji: 'ko', word: 'cocodrilo', row: 'k',
+        desc: 'Las mandíbulas de un cocodrilo abiertas horizontalmente al acecho en el agua.',
+        drawSVG: (opKana, opDraw) => `
+          <svg viewBox="0 0 100 100">
+            <g opacity="${opDraw}" stroke="#16a34a" stroke-width="2" fill="none">
+              <path d="M 30 32 L 72 32 Q 74 38 68 40" stroke="#15803d" stroke-width="5" stroke-linecap="round"/>
+              <path d="M 30 72 L 72 72 Q 68 64 62 64" stroke="#15803d" stroke-width="5" stroke-linecap="round"/>
+              <polygon points="44,38 48,46 52,38" fill="#86efac"/>
+              <polygon points="56,66 60,58 64,66" fill="#86efac"/>
+            </g>
+            <text x="50" y="76" text-anchor="middle" font-family="'Hiragino Sans', sans-serif" font-size="80" fill="#0f172a" font-weight="900" opacity="${opKana}">こ</text>
+          </svg>`
+      },
+
+      // Fila S (Sa, Shi, Su, Se, So)
+      {
+        kana: 'さ', romaji: 'sa', word: 'sake / copa', row: 's',
+        desc: 'Una copa de sake tradicional con un palillo de bambú apoyado en la boca.',
+        drawSVG: (opKana, opDraw) => `
+          <svg viewBox="0 0 100 100">
+            <g opacity="${opDraw}" stroke="#0284c7" stroke-width="2" fill="none">
+              <line x1="26" y1="36" x2="74" y2="36" stroke="#0284c7" stroke-width="4"/>
+              <line x1="60" y1="20" x2="42" y2="76" stroke="#0369a1" stroke-width="4"/>
+              <ellipse cx="50" cy="74" rx="16" ry="7" fill="#e0f2fe" stroke="#0284c7" stroke-width="3"/>
+            </g>
+            <text x="50" y="78" text-anchor="middle" font-family="'Hiragino Sans', sans-serif" font-size="78" fill="#0f172a" font-weight="900" opacity="${opKana}">さ</text>
+          </svg>`
+      },
+      {
+        kana: 'し', romaji: 'shi', word: 'anzuelo / shit', row: 's',
+        desc: 'Un anzuelo de pescar curvado hacia arriba para atrapar peces bajo el agua.',
+        drawSVG: (opKana, opDraw) => `
+          <svg viewBox="0 0 100 100">
+            <g opacity="${opDraw}" stroke="#475569" stroke-width="2" fill="none">
+              <path d="M 36 20 L 36 60 Q 36 84 66 84 L 72 82" stroke="#334155" stroke-width="6" stroke-linecap="round"/>
+              <polygon points="72,76 80,82 72,88" fill="#e11d48"/>
+            </g>
+            <text x="50" y="78" text-anchor="middle" font-family="'Hiragino Sans', sans-serif" font-size="82" fill="#0f172a" font-weight="900" opacity="${opKana}">し</text>
+          </svg>`
+      },
+      {
+        kana: 'す', romaji: 'su', word: 'superman', row: 's',
+        desc: 'Superman volando en horizontal con su capa haciendo un rizo en el aire.',
+        drawSVG: (opKana, opDraw) => `
+          <svg viewBox="0 0 100 100">
+            <g opacity="${opDraw}" stroke="#2563eb" stroke-width="2" fill="none">
+              <line x1="20" y1="32" x2="80" y2="32" stroke="#dc2626" stroke-width="4"/>
+              <circle cx="48" cy="56" r="10" stroke="#2563eb" stroke-width="3" fill="#dbeafe"/>
+              <path d="M 48 32 L 48 84" stroke="#2563eb" stroke-width="4"/>
+            </g>
+            <text x="50" y="78" text-anchor="middle" font-family="'Hiragino Sans', sans-serif" font-size="78" fill="#0f172a" font-weight="900" opacity="${opKana}">す</text>
+          </svg>`
+      },
+      {
+        kana: 'せ', romaji: 'se', word: 'señor sentado', row: 's',
+        desc: 'Un señor sentado cómodamente sobre un banco, estirando los pies.',
+        drawSVG: (opKana, opDraw) => `
+          <svg viewBox="0 0 100 100">
+            <g opacity="${opDraw}" stroke="#0f172a" stroke-width="2" fill="none">
+              <line x1="22" y1="38" x2="78" y2="38" stroke="#475569" stroke-width="4"/>
+              <circle cx="34" cy="24" r="6" fill="#fed7aa"/>
+              <path d="M 38 40 L 38 80 L 52 80" stroke="#0f172a" stroke-width="4" stroke-linecap="round"/>
+              <line x1="68" y1="28" x2="68" y2="60" stroke="#0f172a" stroke-width="3"/>
+            </g>
+            <text x="50" y="78" text-anchor="middle" font-family="'Hiragino Sans', sans-serif" font-size="78" fill="#0f172a" font-weight="900" opacity="${opKana}">せ</text>
+          </svg>`
+      },
+      {
+        kana: 'そ', romaji: 'so', word: 'soporte / zigzag', row: 's',
+        desc: 'Una aguja de coser trazando un zigzag de hilo continuo.',
+        drawSVG: (opKana, opDraw) => `
+          <svg viewBox="0 0 100 100">
+            <g opacity="${opDraw}" stroke="#9333ea" stroke-width="2" fill="none">
+              <path d="M 34 26 L 68 26 L 36 50 Q 56 46 66 58 Q 72 74 42 82" stroke="#7e22ce" stroke-width="4" stroke-linecap="round"/>
+              <circle cx="70" cy="24" r="2.5" fill="#e9d5ff"/>
+            </g>
+            <text x="50" y="78" text-anchor="middle" font-family="'Hiragino Sans', sans-serif" font-size="78" fill="#0f172a" font-weight="900" opacity="${opKana}">そ</text>
+          </svg>`
+      },
+
+      // Fila T (Ta, Chi, Tsu, Te, To)
+      {
+        kana: 'た', romaji: 'ta', word: 'letras TA', row: 't',
+        desc: 'El propio kana está compuesto visualmente por las letras occidentales "t" a la izquierda y "a" estilizada a la derecha.',
+        drawSVG: (opKana, opDraw) => `
+          <svg viewBox="0 0 100 100">
+            <g opacity="${opDraw}" stroke="#2563eb" stroke-width="2" fill="none">
+              <text x="30" y="58" font-size="34" font-weight="900" fill="#3b82f6" opacity="0.4">t</text>
+              <text x="60" y="68" font-size="30" font-weight="900" fill="#ec4899" opacity="0.4">a</text>
+            </g>
+            <text x="50" y="76" text-anchor="middle" font-family="'Hiragino Sans', sans-serif" font-size="78" fill="#0f172a" font-weight="900" opacity="${opKana}">た</text>
+          </svg>`
+      },
+      {
+        kana: 'ち', romaji: 'chi', word: 'chico alegre', row: 't',
+        desc: 'Un chico de perfil o número 5 al revés, con cabeza erguida y una gran barriga feliz.',
+        drawSVG: (opKana, opDraw) => `
+          <svg viewBox="0 0 100 100">
+            <g opacity="${opDraw}" stroke="#f97316" stroke-width="2" fill="none">
+              <line x1="30" y1="34" x2="72" y2="34" stroke="#ea580c" stroke-width="4"/>
+              <circle cx="44" cy="22" r="5" fill="#ffedd5"/>
+              <circle cx="56" cy="62" r="16" fill="#fff7ed" stroke="#f97316" stroke-width="3"/>
+            </g>
+            <text x="50" y="78" text-anchor="middle" font-family="'Hiragino Sans', sans-serif" font-size="78" fill="#0f172a" font-weight="900" opacity="${opKana}">ち</text>
+          </svg>`
+      },
+      {
+        kana: 'つ', romaji: 'tsu', word: 'tsunami', row: 't',
+        desc: 'La cresta encorvada de una ola gigante rompiendo en forma de Tsunami salvaje.',
+        drawSVG: (opKana, opDraw) => `
+          <svg viewBox="0 0 100 100">
+            <g opacity="${opDraw}" stroke="#0284c7" stroke-width="2" fill="none">
+              <path d="M 22 66 Q 30 20 74 24 Q 68 54 36 68" fill="#e0f2fe" stroke="#0284c7" stroke-width="3"/>
+              <circle cx="70" cy="26" r="3" fill="#fff"/>
+              <circle cx="62" cy="22" r="2.5" fill="#fff"/>
+            </g>
+            <text x="50" y="78" text-anchor="middle" font-family="'Hiragino Sans', sans-serif" font-size="82" fill="#0f172a" font-weight="900" opacity="${opKana}">つ</text>
+          </svg>`
+      },
+      {
+        kana: 'て', romaji: 'te', word: 'tetera', row: 't',
+        desc: 'La tapa plana y la panza curvada con el asa de una tetera humeante.',
+        drawSVG: (opKana, opDraw) => `
+          <svg viewBox="0 0 100 100">
+            <g opacity="${opDraw}" stroke="#0d9488" stroke-width="2" fill="none">
+              <line x1="24" y1="32" x2="74" y2="32" stroke="#0f766e" stroke-width="5" stroke-linecap="round"/>
+              <path d="M 52 32 C 16 56 46 86 78 76" stroke="#0d9488" stroke-width="4" stroke-linecap="round"/>
+              <circle cx="50" cy="22" r="4" fill="#5eead4"/>
+            </g>
+            <text x="50" y="78" text-anchor="middle" font-family="'Hiragino Sans', sans-serif" font-size="82" fill="#0f172a" font-weight="900" opacity="${opKana}">て</text>
+          </svg>`
+      },
+      {
+        kana: 'と', romaji: 'to', word: 'tornillo / toe', row: 't',
+        desc: 'Un tornillo clavándose en una tabla o una astilla clavada en el dedo gordo del pie (toe).',
+        drawSVG: (opKana, opDraw) => `
+          <svg viewBox="0 0 100 100">
+            <g opacity="${opDraw}" stroke="#be123c" stroke-width="2" fill="none">
+              <line x1="36" y1="22" x2="52" y2="52" stroke="#e11d48" stroke-width="4"/>
+              <ellipse cx="56" cy="62" rx="20" ry="16" fill="#ffe4e6" stroke="#be123c" stroke-width="3"/>
+            </g>
+            <text x="50" y="76" text-anchor="middle" font-family="'Hiragino Sans', sans-serif" font-size="80" fill="#0f172a" font-weight="900" opacity="${opKana}">と</text>
+          </svg>`
+      },
+
+      // Fila N (Na, Ni, Nu, Ne, No)
+      {
+        kana: 'な', romaji: 'na', word: 'nadador', row: 'n',
+        desc: 'Un nadador zambulléndose junto a una boya que flota a la derecha.',
+        drawSVG: (opKana, opDraw) => `
+          <svg viewBox="0 0 100 100">
+            <g opacity="${opDraw}" stroke="#0284c7" stroke-width="2" fill="none">
+              <line x1="22" y1="36" x2="48" y2="36" stroke="#0284c7" stroke-width="3"/>
+              <line x1="36" y1="24" x2="36" y2="76" stroke="#0284c7" stroke-width="3"/>
+              <circle cx="68" cy="30" r="5" fill="#f87171" stroke="#dc2626"/>
+              <path d="M 60 52 Q 78 52 74 72 Q 62 82 58 66" stroke="#0284c7" stroke-width="2.5"/>
+            </g>
+            <text x="50" y="78" text-anchor="middle" font-family="'Hiragino Sans', sans-serif" font-size="78" fill="#0f172a" font-weight="900" opacity="${opKana}">な</text>
+          </svg>`
+      },
+      {
+        kana: 'に', romaji: 'ni', word: 'nido', row: 'n',
+        desc: 'Un tronco de árbol a la izquierda y dos ramitas horizontales formando el nido del pájaro.',
+        drawSVG: (opKana, opDraw) => `
+          <svg viewBox="0 0 100 100">
+            <g opacity="${opDraw}" stroke="#854d0e" stroke-width="2" fill="none">
+              <line x1="26" y1="20" x2="26" y2="80" stroke="#854d0e" stroke-width="5" stroke-linecap="round"/>
+              <line x1="48" y1="38" x2="78" y2="38" stroke="#a16207" stroke-width="4" stroke-linecap="round"/>
+              <line x1="48" y1="62" x2="78" y2="62" stroke="#a16207" stroke-width="4" stroke-linecap="round"/>
+              <ellipse cx="64" cy="50" rx="6" ry="4" fill="#fed7aa"/>
+            </g>
+            <text x="50" y="78" text-anchor="middle" font-family="'Hiragino Sans', sans-serif" font-size="78" fill="#0f172a" font-weight="900" opacity="${opKana}">に</text>
+          </svg>`
+      },
+      {
+        kana: 'ぬ', romaji: 'nu', word: 'noodles / fideos', row: 'n',
+        desc: 'Palillos enrollando una montaña de noodles o fideos ramen que terminan en un rulo al final.',
+        drawSVG: (opKana, opDraw) => `
+          <svg viewBox="0 0 100 100">
+            <g opacity="${opDraw}" stroke="#d97706" stroke-width="2" fill="none">
+              <path d="M 28 26 Q 50 68 76 72" stroke="#b45309" stroke-width="3"/>
+              <ellipse cx="74" cy="74" rx="7" ry="7" stroke="#d97706" stroke-width="3"/>
+              <line x1="18" y1="18" x2="82" y2="40" stroke="#92400e" stroke-width="2"/>
+            </g>
+            <text x="50" y="78" text-anchor="middle" font-family="'Hiragino Sans', sans-serif" font-size="78" fill="#0f172a" font-weight="900" opacity="${opKana}">ぬ</text>
+          </svg>`
+      },
+      {
+        kana: 'ね', romaji: 'ne', word: 'neko (gato)', row: 'n',
+        desc: 'Un gato (neko) sentado de espaldas mostrando su cuerpo y rizando la colita en espiral.',
+        drawSVG: (opKana, opDraw) => `
+          <svg viewBox="0 0 100 100">
+            <g opacity="${opDraw}" stroke="#475569" stroke-width="2" fill="none">
+              <line x1="28" y1="20" x2="28" y2="82" stroke="#334155" stroke-width="4"/>
+              <path d="M 40 28 L 52 14 L 56 28" fill="#cbd5e1" stroke="#334155"/>
+              <ellipse cx="72" cy="70" rx="6" ry="6" stroke="#475569" stroke-width="3"/>
+            </g>
+            <text x="50" y="78" text-anchor="middle" font-family="'Hiragino Sans', sans-serif" font-size="78" fill="#0f172a" font-weight="900" opacity="${opKana}">ね</text>
+          </svg>`
+      },
+      {
+        kana: 'の', romaji: 'no', word: 'prohibido (NO)', row: 'n',
+        desc: 'Una señal circular de tráfico tachada con una barra diagonal: ¡NO rotundo!',
+        drawSVG: (opKana, opDraw) => `
+          <svg viewBox="0 0 100 100">
+            <g opacity="${opDraw}" stroke="#dc2626" stroke-width="4" fill="none">
+              <circle cx="50" cy="50" r="36" fill="#fef2f2" stroke="#dc2626"/>
+              <line x1="26" y1="26" x2="74" y2="74" stroke="#dc2626" stroke-width="4"/>
+            </g>
+            <text x="50" y="78" text-anchor="middle" font-family="'Hiragino Sans', sans-serif" font-size="82" fill="#0f172a" font-weight="900" opacity="${opKana}">の</text>
+          </svg>`
+      },
+
+      // Fila H (Ha, Hi, Fu, He, Ho)
+      {
+        kana: 'は', romaji: 'ha', word: 'jugador de hockey', row: 'h',
+        desc: 'Un palo de hockey vertical a la izquierda y el deportista golpeando la bola (Ha!).',
+        drawSVG: (opKana, opDraw) => `
+          <svg viewBox="0 0 100 100">
+            <g opacity="${opDraw}" stroke="#0284c7" stroke-width="2" fill="none">
+              <line x1="26" y1="20" x2="26" y2="80" stroke="#0369a1" stroke-width="4" stroke-linecap="round"/>
+              <circle cx="70" cy="70" r="6" fill="#f87171"/>
+              <line x1="44" y1="36" x2="74" y2="36" stroke="#0284c7" stroke-width="3"/>
+            </g>
+            <text x="50" y="78" text-anchor="middle" font-family="'Hiragino Sans', sans-serif" font-size="78" fill="#0f172a" font-weight="900" opacity="${opKana}">は</text>
+          </svg>`
+      },
+      {
+        kana: 'ひ', romaji: 'hi', word: 'sonrisa / hi-hi', row: 'h',
+        desc: 'Una boca sonriente riéndose a carcajadas "¡Hi-hi-hi!".',
+        drawSVG: (opKana, opDraw) => `
+          <svg viewBox="0 0 100 100">
+            <g opacity="${opDraw}" stroke="#e11d48" stroke-width="2" fill="none">
+              <path d="M 24 32 Q 50 16 50 56 Q 50 82 76 34" stroke="#e11d48" stroke-width="4" stroke-linecap="round"/>
+              <circle cx="28" cy="24" r="3" fill="#fda4af"/>
+              <circle cx="72" cy="24" r="3" fill="#fda4af"/>
+            </g>
+            <text x="50" y="76" text-anchor="middle" font-family="'Hiragino Sans', sans-serif" font-size="80" fill="#0f172a" font-weight="900" opacity="${opKana}">ひ</text>
+          </svg>`
+      },
+      {
+        kana: 'ふ', romaji: 'fu', word: 'monte fuji', row: 'h',
+        desc: 'El pico nevado del volcán Monte Fuji con sus laderas y nubes flotantes a los lados.',
+        drawSVG: (opKana, opDraw) => `
+          <svg viewBox="0 0 100 100">
+            <g opacity="${opDraw}" stroke="#0369a1" stroke-width="2" fill="none">
+              <path d="M 50 18 L 50 30" stroke="#0284c7" stroke-width="4"/>
+              <path d="M 32 46 Q 50 36 68 46 L 76 80 L 24 80 Z" fill="#e0f2fe" stroke="#0369a1" stroke-width="2.5"/>
+              <polygon points="42,50 50,38 58,50" fill="#fff"/>
+            </g>
+            <text x="50" y="78" text-anchor="middle" font-family="'Hiragino Sans', sans-serif" font-size="78" fill="#0f172a" font-weight="900" opacity="${opKana}">ふ</text>
+          </svg>`
+      },
+      {
+        kana: 'へ', romaji: 'he', word: 'helena / monte', row: 'h',
+        desc: 'La silueta puntiaguda de una colina o montaña (cima de subida y bajada).',
+        drawSVG: (opKana, opDraw) => `
+          <svg viewBox="0 0 100 100">
+            <g opacity="${opDraw}" stroke="#15803d" stroke-width="2" fill="none">
+              <path d="M 20 62 L 46 32 L 80 66" stroke="#16a34a" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+              <circle cx="46" cy="22" r="5" fill="#facc15"/>
+            </g>
+            <text x="50" y="76" text-anchor="middle" font-family="'Hiragino Sans', sans-serif" font-size="82" fill="#0f172a" font-weight="900" opacity="${opKana}">へ</text>
+          </svg>`
+      },
+      {
+        kana: 'ほ', romaji: 'ho', word: 'hoguera / sombrero', row: 'h',
+        desc: 'Similar a HA, pero con sombrero protector superior para evitar que salten chispas de la hoguera.',
+        drawSVG: (opKana, opDraw) => `
+          <svg viewBox="0 0 100 100">
+            <g opacity="${opDraw}" stroke="#ea580c" stroke-width="2" fill="none">
+              <line x1="26" y1="20" x2="26" y2="82" stroke="#9a3412" stroke-width="4"/>
+              <line x1="42" y1="26" x2="78" y2="26" stroke="#ea580c" stroke-width="3"/>
+              <line x1="42" y1="42" x2="74" y2="42" stroke="#ea580c" stroke-width="3"/>
+              <circle cx="70" cy="70" r="7" fill="#fed7aa" stroke="#ea580c" stroke-width="2"/>
+            </g>
+            <text x="50" y="78" text-anchor="middle" font-family="'Hiragino Sans', sans-serif" font-size="78" fill="#0f172a" font-weight="900" opacity="${opKana}">ほ</text>
+          </svg>`
+      },
+
+      // Fila M (Ma, Mi, Mu, Me, Mo)
+      {
+        kana: 'ま', romaji: 'ma', word: 'máscara', row: 'm',
+        desc: 'Una máscara ceremonial con las cuerdas horizontales para atarla a la cabeza.',
+        drawSVG: (opKana, opDraw) => `
+          <svg viewBox="0 0 100 100">
+            <g opacity="${opDraw}" stroke="#9333ea" stroke-width="2" fill="none">
+              <line x1="24" y1="32" x2="76" y2="32" stroke="#7e22ce" stroke-width="4"/>
+              <line x1="26" y1="48" x2="74" y2="48" stroke="#7e22ce" stroke-width="4"/>
+              <circle cx="50" cy="72" r="10" stroke="#9333ea" stroke-width="3" fill="#f3e8ff"/>
+            </g>
+            <text x="50" y="78" text-anchor="middle" font-family="'Hiragino Sans', sans-serif" font-size="78" fill="#0f172a" font-weight="900" opacity="${opKana}">ま</text>
+          </svg>`
+      },
+      {
+        kana: 'み', romaji: 'mi', word: 'músico (21)', row: 'm',
+        desc: 'El número 21 estilizado de un cantante o una nota musical con la batuta cruzando.',
+        drawSVG: (opKana, opDraw) => `
+          <svg viewBox="0 0 100 100">
+            <g opacity="${opDraw}" stroke="#2563eb" stroke-width="2" fill="none">
+              <path d="M 28 28 Q 50 18 46 54 L 76 54" stroke="#1d4ed8" stroke-width="4"/>
+              <line x1="60" y1="32" x2="40" y2="82" stroke="#ec4899" stroke-width="4" stroke-linecap="round"/>
+            </g>
+            <text x="50" y="78" text-anchor="middle" font-family="'Hiragino Sans', sans-serif" font-size="78" fill="#0f172a" font-weight="900" opacity="${opKana}">み</text>
+          </svg>`
+      },
+      {
+        kana: 'む', romaji: 'mu', word: 'vaca (Muuu)', row: 'm',
+        desc: 'La cabeza de una vaca con su hocico en bucle y su cola o cuerno arriba diciendo ¡Muuu!',
+        drawSVG: (opKana, opDraw) => `
+          <svg viewBox="0 0 100 100">
+            <g opacity="${opDraw}" stroke="#475569" stroke-width="2" fill="none">
+              <line x1="22" y1="36" x2="54" y2="36" stroke="#334155" stroke-width="3"/>
+              <circle cx="48" cy="62" r="10" fill="#f1f5f9" stroke="#334155" stroke-width="3"/>
+              <circle cx="76" cy="30" r="4" fill="#f87171"/>
+            </g>
+            <text x="50" y="78" text-anchor="middle" font-family="'Hiragino Sans', sans-serif" font-size="78" fill="#0f172a" font-weight="900" opacity="${opKana}">む</text>
+          </svg>`
+      },
+      {
+        kana: 'め', romaji: 'me', word: 'ojo (me / 目)', row: 'm',
+        desc: 'La forma ovalada de un ojo humano con el párpado y las pestañas envolventes (en japonés ojo se dice "me").',
+        drawSVG: (opKana, opDraw) => `
+          <svg viewBox="0 0 100 100">
+            <g opacity="${opDraw}" stroke="#0284c7" stroke-width="2" fill="none">
+              <ellipse cx="50" cy="54" rx="26" ry="18" fill="#f0f9ff" stroke="#0284c7" stroke-width="3"/>
+              <circle cx="50" cy="54" r="8" fill="#0369a1"/>
+            </g>
+            <text x="50" y="78" text-anchor="middle" font-family="'Hiragino Sans', sans-serif" font-size="78" fill="#0f172a" font-weight="900" opacity="${opKana}">め</text>
+          </svg>`
+      },
+      {
+        kana: 'も', romaji: 'mo', word: 'mono / anzuelos', row: 'm',
+        desc: 'Un anzuelo con más carnada (dos gusanos horizontales) para pescar más (more / mo).',
+        drawSVG: (opKana, opDraw) => `
+          <svg viewBox="0 0 100 100">
+            <g opacity="${opDraw}" stroke="#ea580c" stroke-width="2" fill="none">
+              <line x1="26" y1="36" x2="74" y2="36" stroke="#ea580c" stroke-width="4"/>
+              <line x1="28" y1="52" x2="72" y2="52" stroke="#ea580c" stroke-width="4"/>
+              <path d="M 50 18 L 50 68 Q 50 86 76 78" stroke="#c2410c" stroke-width="4" stroke-linecap="round"/>
+            </g>
+            <text x="50" y="78" text-anchor="middle" font-family="'Hiragino Sans', sans-serif" font-size="78" fill="#0f172a" font-weight="900" opacity="${opKana}">も</text>
+          </svg>`
+      },
+
+      // Fila Y (Ya, Yu, Yo)
+      {
+        kana: 'や', romaji: 'ya', word: 'yak / yate', row: 'y',
+        desc: 'La cornamenta y el hocico de un Yak tibetano o un yate en el agua.',
+        drawSVG: (opKana, opDraw) => `
+          <svg viewBox="0 0 100 100">
+            <g opacity="${opDraw}" stroke="#854d0e" stroke-width="2" fill="none">
+              <path d="M 28 44 Q 50 18 70 38" stroke="#a16207" stroke-width="4"/>
+              <circle cx="36" cy="24" r="3" fill="#ea580c"/>
+              <line x1="68" y1="20" x2="48" y2="82" stroke="#854d0e" stroke-width="3"/>
+            </g>
+            <text x="50" y="78" text-anchor="middle" font-family="'Hiragino Sans', sans-serif" font-size="78" fill="#0f172a" font-weight="900" opacity="${opKana}">や</text>
+          </svg>`
+      },
+      {
+        kana: 'ゆ', romaji: 'yu', word: 'pez nadando', row: 'y',
+        desc: 'Un pez elegante nadando en vertical cruzado por el anzuelo (o un pez dorado).',
+        drawSVG: (opKana, opDraw) => `
+          <svg viewBox="0 0 100 100">
+            <g opacity="${opDraw}" stroke="#0284c7" stroke-width="2" fill="none">
+              <ellipse cx="44" cy="50" rx="18" ry="24" fill="#e0f2fe" stroke="#0284c7" stroke-width="3"/>
+              <line x1="66" y1="20" x2="66" y2="80" stroke="#0369a1" stroke-width="4"/>
+            </g>
+            <text x="50" y="78" text-anchor="middle" font-family="'Hiragino Sans', sans-serif" font-size="78" fill="#0f172a" font-weight="900" opacity="${opKana}">ゆ</text>
+          </svg>`
+      },
+      {
+        kana: 'よ', romaji: 'yo', word: 'yoyó', row: 'y',
+        desc: 'El hilo y el rodillo del juguete yoyó suspendido en el aire.',
+        drawSVG: (opKana, opDraw) => `
+          <svg viewBox="0 0 100 100">
+            <g opacity="${opDraw}" stroke="#9333ea" stroke-width="2" fill="none">
+              <line x1="30" y1="36" x2="68" y2="36" stroke="#7e22ce" stroke-width="4"/>
+              <circle cx="50" cy="62" r="14" fill="#fae8ff" stroke="#9333ea" stroke-width="4"/>
+            </g>
+            <text x="50" y="78" text-anchor="middle" font-family="'Hiragino Sans', sans-serif" font-size="78" fill="#0f172a" font-weight="900" opacity="${opKana}">よ</text>
+          </svg>`
+      },
+
+      // Fila R (Ra, Ri, Ru, Re, Ro)
+      {
+        kana: 'ら', romaji: 'ra', word: 'rapero', row: 'r',
+        desc: 'Un rapero agachado con su gorra hacia atrás rimando en el micrófono.',
+        drawSVG: (opKana, opDraw) => `
+          <svg viewBox="0 0 100 100">
+            <g opacity="${opDraw}" stroke="#16a34a" stroke-width="2" fill="none">
+              <line x1="42" y1="20" x2="58" y2="20" stroke="#15803d" stroke-width="4"/>
+              <path d="M 36 40 C 70 34 70 76 34 82" stroke="#16a34a" stroke-width="4" stroke-linecap="round"/>
+            </g>
+            <text x="50" y="78" text-anchor="middle" font-family="'Hiragino Sans', sans-serif" font-size="78" fill="#0f172a" font-weight="900" opacity="${opKana}">ら</text>
+          </svg>`
+      },
+      {
+        kana: 'り', romaji: 'ri', word: 'río', row: 'r',
+        desc: 'Dos corrientes paralelas de agua que bajan formando el cauce de un río cristalino.',
+        drawSVG: (opKana, opDraw) => `
+          <svg viewBox="0 0 100 100">
+            <g opacity="${opDraw}" stroke="#0284c7" stroke-width="2" fill="none">
+              <path d="M 32 30 L 32 60" stroke="#38bdf8" stroke-width="5" stroke-linecap="round"/>
+              <path d="M 66 18 Q 70 54 62 82" stroke="#0284c7" stroke-width="5" stroke-linecap="round"/>
+            </g>
+            <text x="50" y="78" text-anchor="middle" font-family="'Hiragino Sans', sans-serif" font-size="78" fill="#0f172a" font-weight="900" opacity="${opKana}">り</text>
+          </svg>`
+      },
+      {
+        kana: 'る', romaji: 'ru', word: 'rueda / loop', row: 'r',
+        desc: 'Una carretera con curvas que termina en una glorieta cerrada o rueda (fíjate en el bucle final que lo diferencia de RO).',
+        drawSVG: (opKana, opDraw) => `
+          <svg viewBox="0 0 100 100">
+            <g opacity="${opDraw}" stroke="#ea580c" stroke-width="2" fill="none">
+              <path d="M 32 26 L 68 26 L 42 52 Q 68 50 68 70" stroke="#c2410c" stroke-width="4"/>
+              <circle cx="56" cy="74" r="8" fill="#fed7aa" stroke="#ea580c" stroke-width="3"/>
+            </g>
+            <text x="50" y="78" text-anchor="middle" font-family="'Hiragino Sans', sans-serif" font-size="78" fill="#0f172a" font-weight="900" opacity="${opKana}">る</text>
+          </svg>`
+      },
+      {
+        kana: 'れ', romaji: 're', word: 'recostado', row: 'r',
+        desc: 'Una persona recostada descansando a la sombra de un árbol.',
+        drawSVG: (opKana, opDraw) => `
+          <svg viewBox="0 0 100 100">
+            <g opacity="${opDraw}" stroke="#0f172a" stroke-width="2" fill="none">
+              <line x1="28" y1="20" x2="28" y2="82" stroke="#0f172a" stroke-width="4"/>
+              <path d="M 38 48 L 52 36 L 52 70 Q 64 74 74 60" stroke="#475569" stroke-width="4"/>
+            </g>
+            <text x="50" y="78" text-anchor="middle" font-family="'Hiragino Sans', sans-serif" font-size="78" fill="#0f172a" font-weight="900" opacity="${opKana}">れ</text>
+          </svg>`
+      },
+      {
+        kana: 'ろ', romaji: 'ro', word: 'robaron el bucle', row: 'r',
+        desc: 'Exactamente igual a RU, pero le "robaron" la rueda o el bucle del final: queda abierto.',
+        drawSVG: (opKana, opDraw) => `
+          <svg viewBox="0 0 100 100">
+            <g opacity="${opDraw}" stroke="#dc2626" stroke-width="2" fill="none">
+              <path d="M 32 26 L 68 26 L 40 50 Q 72 48 64 76 Q 52 86 36 82" stroke="#dc2626" stroke-width="4" stroke-linecap="round"/>
+              <circle cx="68" cy="74" r="3" stroke="#f87171" stroke-dasharray="2 2"/>
+            </g>
+            <text x="50" y="78" text-anchor="middle" font-family="'Hiragino Sans', sans-serif" font-size="78" fill="#0f172a" font-weight="900" opacity="${opKana}">ろ</text>
+          </svg>`
+      },
+
+      // Fila W / N (Wa, Wo, N)
+      {
+        kana: 'わ', romaji: 'wa', word: 'avispa (wasp)', row: 'w',
+        desc: 'Una avispa (wasp) con gran aguijón y abdomen curvado.',
+        drawSVG: (opKana, opDraw) => `
+          <svg viewBox="0 0 100 100">
+            <g opacity="${opDraw}" stroke="#ca8a04" stroke-width="2" fill="none">
+              <line x1="28" y1="20" x2="28" y2="82" stroke="#854d0e" stroke-width="4"/>
+              <path d="M 40 44 Q 68 34 68 62 Q 68 84 34 82" stroke="#ca8a04" stroke-width="4"/>
+            </g>
+            <text x="50" y="78" text-anchor="middle" font-family="'Hiragino Sans', sans-serif" font-size="78" fill="#0f172a" font-weight="900" opacity="${opKana}">わ</text>
+          </svg>`
+      },
+      {
+        kana: 'を', romaji: 'wo', word: '¡uau! (whoa)', row: 'w',
+        desc: 'Una persona gritando "¡Whoa!" al tropezar con una barra en patines.',
+        drawSVG: (opKana, opDraw) => `
+          <svg viewBox="0 0 100 100">
+            <g opacity="${opDraw}" stroke="#7c3aed" stroke-width="2" fill="none">
+              <line x1="24" y1="34" x2="68" y2="34" stroke="#6d28d9" stroke-width="3"/>
+              <path d="M 46 22 L 32 64 L 68 50" stroke="#7c3aed" stroke-width="3"/>
+              <circle cx="56" cy="74" r="8" fill="#ede9fe" stroke="#6d28d9" stroke-width="2.5"/>
+            </g>
+            <text x="50" y="78" text-anchor="middle" font-family="'Hiragino Sans', sans-serif" font-size="78" fill="#0f172a" font-weight="900" opacity="${opKana}">を</text>
+          </svg>`
+      },
+      {
+        kana: 'ん', romaji: 'n', word: 'nariz', row: 'w',
+        desc: 'El contorno de una nariz humana de perfil, o la propia letra "n" minúscula cursiva.',
+        drawSVG: (opKana, opDraw) => `
+          <svg viewBox="0 0 100 100">
+            <g opacity="${opDraw}" stroke="#e11d48" stroke-width="2" fill="none">
+              <path d="M 32 24 L 38 60 Q 48 40 62 50 Q 72 62 82 58" stroke="#e11d48" stroke-width="4.5" stroke-linecap="round"/>
+              <circle cx="34" cy="22" r="3" fill="#fda4af"/>
+            </g>
+            <text x="50" y="78" text-anchor="middle" font-family="'Hiragino Sans', sans-serif" font-size="78" fill="#0f172a" font-weight="900" opacity="${opKana}">ん</text>
+          </svg>`
+      }
+    ];
+
+    /* ==========================================================================
+2. DICCIONARIO EXTENSO DE VOCABULARIO CLASIFICADO (HIRAGANA PURO)
+       ========================================================================== */
+    const VOCAB_DATA = [
+      // 1. Saludos y Cortesía
+      { cat: 'saludos', kana: 'おはよう', romaji: 'ohayou', es: 'Buenos días' },
+      { cat: 'saludos', kana: 'こんにちは', romaji: 'konnichiwa', es: 'Hola / Buenas tardes' },
+      { cat: 'saludos', kana: 'こんばんは', romaji: 'konbanwa', es: 'Buenas noches (saludo)' },
+      { cat: 'saludos', kana: 'ありがとう', romaji: 'arigatou', es: 'Gracias' },
+      { cat: 'saludos', kana: 'すみません', romaji: 'sumimasen', es: 'Disculpe / Perdón' },
+      { cat: 'saludos', kana: 'さようなら', romaji: 'sayounara', es: 'Adiós' },
+      { cat: 'saludos', kana: 'はい', romaji: 'hai', es: 'Sí' },
+      { cat: 'saludos', kana: 'いいえ', romaji: 'iie', es: 'No' },
+      { cat: 'saludos', kana: 'おやすみ', romaji: 'oyasumi', es: 'Buenas noches (despedida)' },
+      { cat: 'saludos', kana: 'よろしく', romaji: 'yoroshiku', es: 'Mucho gusto / Cuento contigo' },
+
+      // 2. Cotidiano y Casa
+      { cat: 'casa', kana: 'いえ', romaji: 'ie', es: 'Casa' },
+      { cat: 'casa', kana: 'へや', romaji: 'heya', es: 'Habitación / Cuarto' },
+      { cat: 'casa', kana: 'まど', romaji: 'mado', es: 'Ventana' },
+      { cat: 'casa', kana: 'ドア', romaji: 'doa', es: 'Puerta' },
+      { cat: 'casa', kana: 'つくえ', romaji: 'tsukue', es: 'Escritorio / Mesa de trabajo' },
+      { cat: 'casa', kana: 'いす', romaji: 'isu', es: 'Silla' },
+      { cat: 'casa', kana: 'ほん', romaji: 'hon', es: 'Libro' },
+      { cat: 'casa', kana: 'かぎ', romaji: 'kagi', es: 'Llave' },
+      { cat: 'casa', kana: 'とけい', romaji: 'tokei', es: 'Reloj' },
+      { cat: 'casa', kana: 'でんわ', romaji: 'denwa', es: 'Teléfono' },
+      { cat: 'casa', kana: 'かばん', romaji: 'kaban', es: 'Bolso / Mochila' },
+      { cat: 'casa', kana: 'くつ', romaji: 'kutsu', es: 'Zapatos' },
+
+      // 3. Animales
+      { cat: 'animales', kana: 'ねこ', romaji: 'neko', es: 'Gato' },
+      { cat: 'animales', kana: 'いぬ', romaji: 'inu', es: 'Perro' },
+      { cat: 'animales', kana: 'とり', romaji: 'tori', es: 'Pájaro / Ave' },
+      { cat: 'animales', kana: 'さかな', romaji: 'sakana', es: 'Pez / Pescado' },
+      { cat: 'animales', kana: 'うま', romaji: 'uma', es: 'Caballo' },
+      { cat: 'animales', kana: 'うし', romaji: 'ushi', es: 'Vaca' },
+      { cat: 'animales', kana: 'うさぎ', romaji: 'usagi', es: 'Conejo' },
+      { cat: 'animales', kana: 'さる', romaji: 'saru', es: 'Mono' },
+      { cat: 'animales', kana: 'くま', romaji: 'kuma', es: 'Oso' },
+      { cat: 'animales', kana: 'ぞう', romaji: 'zou', es: 'Elefante' },
+      { cat: 'animales', kana: 'かめ', romaji: 'kame', es: 'Tortuga' },
+
+      // 4. Comida y Bebida
+      { cat: 'comida', kana: 'みず', romaji: 'mizu', es: 'Agua' },
+      { cat: 'comida', kana: 'おちゃ', romaji: 'ocha', es: 'Té verde' },
+      { cat: 'comida', kana: 'ごはん', romaji: 'gohan', es: 'Arroz cocido / Comida' },
+      { cat: 'comida', kana: 'すし', romaji: 'sushi', es: 'Sushi' },
+      { cat: 'comida', kana: 'にく', romaji: 'niku', es: 'Carne' },
+      { cat: 'comida', kana: 'たまご', romaji: 'tamago', es: 'Huevo' },
+      { cat: 'comida', kana: 'やさい', romaji: 'yasai', es: 'Verdura' },
+      { cat: 'comida', kana: 'くだもの', romaji: 'kudamono', es: 'Fruta' },
+      { cat: 'comida', kana: 'りんご', romaji: 'ringo', es: 'Manzana' },
+      { cat: 'comida', kana: 'さけ', romaji: 'sake', es: 'Sake (licor de arroz)' },
+      { cat: 'comida', kana: 'あめ', romaji: 'ame', es: 'Caramelo / Dulce' },
+
+      // 5. Naturaleza y Clima
+      { cat: 'naturaleza', kana: 'やま', romaji: 'yama', es: 'Montaña' },
+      { cat: 'naturaleza', kana: 'かわ', romaji: 'kawa', es: 'Río' },
+      { cat: 'naturaleza', kana: 'うmi', romaji: 'umi', es: 'Mar / Océano' },
+      { cat: 'naturaleza', kana: 'そら', romaji: 'sora', es: 'Cielo' },
+      { cat: 'naturaleza', kana: 'あめ', romaji: 'ame', es: 'Lluvia' },
+      { cat: 'naturaleza', kana: 'ゆき', romaji: 'yuki', es: 'Nieve' },
+      { cat: 'naturaleza', kana: 'かぜ', romaji: 'kaze', es: 'Viento' },
+      { cat: 'naturaleza', kana: 'はな', romaji: 'hana', es: 'Flor' },
+      { cat: 'naturaleza', kana: 'き', romaji: 'ki', es: 'Árbol / Madera' },
+      { cat: 'naturaleza', kana: 'つき', romaji: 'tsuki', es: 'Luna / Mes' },
+      { cat: 'naturaleza', kana: 'たいよう', romaji: 'taiyou', es: 'Sol' },
+
+      // 6. Personas y Familia
+      { cat: 'familia', kana: 'ひと', romaji: 'hito', es: 'Persona' },
+      { cat: 'familia', kana: 'ともだち', romaji: 'tomodachi', es: 'Amigo / Amiga' },
+      { cat: 'familia', kana: 'かぞく', romaji: 'kazoku', es: 'Familia' },
+      { cat: 'familia', kana: 'おとうさん', romaji: 'otousan', es: 'Padre / Papá' },
+      { cat: 'familia', kana: 'おかあさん', romaji: 'okaasan', es: 'Madre / Mamá' },
+      { cat: 'familia', kana: 'おとconoko', romaji: 'otokonoko', es: 'Niño' },
+      { cat: 'familia', kana: 'おんなのこ', romaji: 'onnanoko', es: 'Niña' },
+      { cat: 'familia', kana: 'せんせい', romaji: 'sensei', es: 'Profesor / Maestro' },
+      { cat: 'familia', kana: 'がくせい', romaji: 'gakusei', es: 'Estudiante' },
+      { cat: 'familia', kana: 'いしゃ', romaji: 'isha', es: 'Médico / Doctor' },
+
+      // 7. Colores
+      { cat: 'colores', kana: 'あか', romaji: 'aka', es: 'Rojo' },
+      { cat: 'colores', kana: 'あお', romaji: 'ao', es: 'Azul' },
+      { cat: 'colores', kana: 'しろ', romaji: 'shiro', es: 'Blanco' },
+      { cat: 'colores', kana: 'くろ', romaji: 'kuro', es: 'Negro' },
+      { cat: 'colores', kana: 'きいろ', romaji: 'kiiro', es: 'Amarillo' },
+      { cat: 'colores', kana: 'みどり', romaji: 'midori', es: 'Verde' },
+      { cat: 'colores', kana: 'ちゃいろ', romaji: 'chairo', es: 'Marrón' },
+
+      // 8. Números y Tiempo
+      { cat: 'tiempo', kana: 'いち', romaji: 'ichi', es: 'Uno (1)' },
+      { cat: 'tiempo', kana: 'に', romaji: 'ni', es: 'Dos (2)' },
+      { cat: 'tiempo', kana: 'さん', romaji: 'san', es: 'Tres (3)' },
+      { cat: 'tiempo', kana: 'よん', romaji: 'yon', es: 'Cuatro (4)' },
+      { cat: 'tiempo', kana: 'ご', romaji: 'go', es: 'Cinco (5)' },
+      { cat: 'tiempo', kana: 'ろく', romaji: 'roku', es: 'Seis (6)' },
+      { cat: 'tiempo', kana: 'なな', romaji: 'nana', es: 'Siete (7)' },
+      { cat: 'tiempo', kana: 'はち', romaji: 'hachi', es: 'Ocho (8)' },
+      { cat: 'tiempo', kana: 'きゅう', romaji: 'kyuu', es: 'Nueve (9)' },
+      { cat: 'tiempo', kana: 'じゅう', romaji: 'juu', es: 'Diez (10)' },
+      { cat: 'tiempo', kana: 'いま', romaji: 'ima', es: 'Ahora' },
+      { cat: 'tiempo', kana: 'きょう', romaji: 'kyou', es: 'Hoy' },
+      { cat: 'tiempo', kana: 'あした', romaji: 'ashita', es: 'Mañana' },
+      { cat: 'tiempo', kana: 'きのう', romaji: 'kinou', es: 'Ayer' },
+
+      // 9. Ciudad y Viajes
+      { cat: 'ciudad', kana: 'まち', romaji: 'machi', es: 'Ciudad / Pueblo' },
+      { cat: 'ciudad', kana: 'みち', romaji: 'michi', es: 'Camino / Calle' },
+      { cat: 'ciudad', kana: 'えき', romaji: 'eki', es: 'Estación de tren' },
+      { cat: 'ciudad', kana: 'でんしゃ', romaji: 'densha', es: 'Tren eléctrico' },
+      { cat: 'ciudad', kana: 'くるま', romaji: 'kuruma', es: 'Coche / Automóvil' },
+      { cat: 'ciudad', kana: 'ひこうき', romaji: 'hikouki', es: 'Avión' },
+      { cat: 'ciudad', kana: 'みせ', romaji: 'mise', es: 'Tienda' },
+      { cat: 'ciudad', kana: 'がっこう', romaji: 'gakkou', es: 'Escuela' },
+      { cat: 'ciudad', kana: 'びょういん', romaji: 'byouin', es: 'Hospital' },
+      { cat: 'ciudad', kana: 'ぎんこう', romaji: 'ginkou', es: 'Banco' },
+
+      // 10. Verbos y Acciones
+      { cat: 'acciones', kana: 'たべる', romaji: 'taberu', es: 'Comer' },
+      { cat: 'acciones', kana: 'のむ', romaji: 'nomu', es: 'Beber' },
+      { cat: 'acciones', kana: 'みる', romaji: 'miru', es: 'Ver / Mirar' },
+      { cat: 'acciones', kana: 'きく', romaji: 'kiku', es: 'Escuchar / Preguntar' },
+      { cat: 'acciones', kana: 'いく', romaji: 'iku', es: 'Ir' },
+      { cat: 'acciones', kana: 'くる', romaji: 'kuru', es: 'Venir' },
+      { cat: 'acciones', kana: 'ねる', romaji: 'neru', es: 'Dormir' },
+      { cat: 'acciones', kana: 'はなす', romaji: 'hanasu', es: 'Hablar' },
+      { cat: 'acciones', kana: 'かく', romaji: 'kaku', es: 'Escribir' },
+      { cat: 'acciones', kana: 'よむ', romaji: 'yomu', es: 'Leer' }
+    ];
+
+    const ROW_FILTERS = [
+      { id: 'all', name: 'Todos (46)' },
+      { id: 'vowels', name: 'Vocales (A-O)' },
+      { id: 'k', name: 'Fila K' },
+      { id: 's', name: 'Fila S' },
+      { id: 't', name: 'Fila T' },
+      { id: 'n', name: 'Fila N' },
+      { id: 'h', name: 'Fila H' },
+      { id: 'm', name: 'Fila M' },
+      { id: 'y', name: 'Fila Y' },
+      { id: 'r', name: 'Fila R' },
+      { id: 'w', name: 'Fila W / N' }
+    ];
+
+    const VOCAB_CATS = [
+      { id: 'all', name: 'Todo el Vocabulario' },
+      { id: 'saludos', name: 'Saludos & Cortesía' },
+      { id: 'casa', name: 'Hogar & Objetos' },
+      { id: 'animales', name: 'Animales' },
+      { id: 'comida', name: 'Comida & Bebida' },
+      { id: 'naturaleza', name: 'Naturaleza' },
+      { id: 'familia', name: 'Gente & Familia' },
+      { id: 'colores', name: 'Colores' },
+      { id: 'tiempo', name: 'Números & Tiempo' },
+      { id: 'ciudad', name: 'Ciudad & Viaje' },
+      { id: 'acciones', name: 'Acciones básicas' }
+    ];
+
+    /* ==========================================================================
+3. ESTADO GLOBAL DE LA APLICACIÓN
+       ========================================================================== */
+    let currentTab = 'tablero';
+    let currentDisplayMode = 'fusion'; // 'fusion' | 'dibujo' | 'trazo'
+    let currentActiveFilter = 'all';
+    let currentSearchTerm = '';
+
+    let currentVocabCat = 'all';
+    let currentVocabSearch = '';
+
+    let activeModalKana = null;
+
+    let deck = [...KANA_DATA];
+    let cardIdx = 0;
+    let isFlipped = false;
+
+    let pizarraKana = KANA_DATA[0];
+    let canvas, ctx;
+    let isDrawing = false;
+    let lastX = 0, lastY = 0;
+    let showGuide = true;
+
+    /* ==========================================================================
+4. CONTROL DE PESTAÑAS (TABS)
+       ========================================================================== */
+    function setTab(tabName) {
+      currentTab = tabName;
+      ['tablero', 'vocabulario', 'tarjetas', 'pizarra'].forEach(t => {
+        const sec = document.getElementById(`view-${t}`);
+        const dBtn = document.getElementById(`desk-btn-${t}`);
+        const mBtn = document.getElementById(`m-tab-${t}`);
+
+        if (t === tabName) {
+          sec.classList.remove('hidden');
+          if (dBtn) dBtn.classList.add('active');
+          if (mBtn) mBtn.classList.add('active');
+        } else {
+          sec.classList.add('hidden');
+          if (dBtn) dBtn.classList.remove('active');
+          if (mBtn) mBtn.classList.remove('active');
+        }
+      });
+
+      if (tabName === 'tarjetas') renderFlashcard();
+      if (tabName === 'pizarra') setTimeout(initCanvas, 50);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    /* ==========================================================================
+5. RENDERIZADO DEL TABLERO Y NEMOTECNIA
+       ========================================================================== */
+    function changeDisplayMode(mode) {
+      currentDisplayMode = mode;
+      ['fusion', 'dibujo', 'trazo'].forEach(m => {
+        const b = document.getElementById(`m-btn-${m}`);
+        if (b) b.classList.toggle('active', m === mode);
+      });
+      renderCards();
+    }
+
+    function getOpacities(mode, customRatio = null) {
+      if (customRatio !== null) {
+        const r = customRatio / 100;
+        return { opKana: Math.min(1, (1 - r) * 1.5), opDraw: Math.min(1, r * 1.5) };
+      }
+      if (mode === 'dibujo') return { opKana: 0.12, opDraw: 1.0 };
+      if (mode === 'trazo') return { opKana: 1.0, opDraw: 0.0 };
+      return { opKana: 1.0, opDraw: 0.85 }; // fusion
+    }
+
+    function renderFilters() {
+      const container = document.getElementById('row-filter-chips');
+      container.innerHTML = ROW_FILTERS.map(f => `
+        <button onclick="setFilter('${f.id}')" class="chip-btn ${currentActiveFilter === f.id ? 'active' : ''}">
+          ${f.name}
+        </button>
+      `).join('');
+    }
+
+    function setFilter(id) {
+      currentActiveFilter = id;
+      renderFilters();
+      renderCards();
+    }
+
+    function applyFilters() {
+      currentSearchTerm = document.getElementById('search-box').value.toLowerCase().trim();
+      renderCards();
+    }
+
+    function renderCards() {
+      const grid = document.getElementById('kana-card-grid');
+      const filtered = KANA_DATA.filter(item => {
+        const matchRow = (currentActiveFilter === 'all') || (item.row === currentActiveFilter);
+        const matchSearch = !currentSearchTerm ||
+          item.kana.includes(currentSearchTerm) ||
+          item.romaji.includes(currentSearchTerm) ||
+          item.word.toLowerCase().includes(currentSearchTerm) ||
+          item.desc.toLowerCase().includes(currentSearchTerm);
+        return matchRow && matchSearch;
+      });
+
+      if (filtered.length === 0) {
+        grid.innerHTML = `<div style="grid-column: 1 / -1; text-align:center; padding:3rem 0; color:var(--slate-500); font-weight:700;">No se encontraron caracteres con ese filtro.</div>`;
+        return;
+      }
+
+      const { opKana, opDraw } = getOpacities(currentDisplayMode);
+
+      grid.innerHTML = filtered.map(item => `
+        <div class="kana-card" onclick="openDetailModal('${item.kana}')">
+          <div class="card-head">
+            <span class="romaji-pill">${item.romaji}</span>
+            <span class="concept-pill">${item.word}</span>
+          </div>
+          <div class="kana-svg-box">
+            ${item.drawSVG(opKana, opDraw)}
+          </div>
+          <div class="card-nemotecnia" title="${item.desc}">
+            ${item.desc}
+          </div>
+        </div>
+      `).join('');
+    }
+
+    /* ==========================================================================
+6. MODAL INTERACTIVO
+       ========================================================================== */
+    function openDetailModal(kanaChar) {
+      const item = KANA_DATA.find(k => k.kana === kanaChar);
+      if (!item) return;
+      activeModalKana = item;
+
+      document.getElementById('m-kana').textContent = item.kana;
+      document.getElementById('m-romaji').textContent = item.romaji;
+      document.getElementById('m-concept').textContent = item.word.toUpperCase();
+      document.getElementById('m-desc').textContent = item.desc;
+
+      const rowObj = ROW_FILTERS.find(r => r.id === item.row);
+      document.getElementById('m-category').textContent = rowObj ? rowObj.name : 'Hiragana';
+
+      document.getElementById('m-slider').value = 50;
+      updateModalSlider(50);
+
+      document.getElementById('modal-detail').classList.remove('hidden');
+      speak(item.kana);
+    }
+
+    function updateModalSlider(val) {
+      if (!activeModalKana) return;
+      const { opKana, opDraw } = getOpacities('fusion', val);
+      document.getElementById('m-svg-stage').innerHTML = activeModalKana.drawSVG(opKana, opDraw);
+    }
+
+    function closeModal(e) {
+      if (e.target.id === 'modal-detail') closeModalDirect();
+    }
+
+    function closeModalDirect() {
+      document.getElementById('modal-detail').classList.add('hidden');
+    }
+
+    function playModalKana() {
+      if (activeModalKana) speak(activeModalKana.kana);
+    }
+
+    function goToPizarraFromModal() {
+      if (!activeModalKana) return;
+      const kana = activeModalKana.kana;
+      closeModalDirect();
+      setTab('pizarra');
+      document.getElementById('pizarra-select').value = kana;
+      changePizarraTarget(kana);
+    }
+
+    /* ==========================================================================
+7. RENDERIZADO DEL VOCABULARIO
+       ========================================================================== */
+    function renderVocabCategories() {
+      const cont = document.getElementById('vocab-category-chips');
+      cont.innerHTML = VOCAB_CATS.map(c => `
+        <button onclick="setVocabCat('${c.id}')" class="chip-btn ${currentVocabCat === c.id ? 'active' : ''}">
+          ${c.name}
+        </button>
+      `).join('');
+    }
+
+    function setVocabCat(id) {
+      currentVocabCat = id;
+      renderVocabCategories();
+      renderVocabList();
+    }
+
+    function applyVocabFilter() {
+      currentVocabSearch = document.getElementById('vocab-search').value.toLowerCase().trim();
+      renderVocabList();
+    }
+
+    function renderVocabList() {
+      const grid = document.getElementById('vocab-card-grid');
+      const filtered = VOCAB_DATA.filter(w => {
+        const matchCat = (currentVocabCat === 'all') || (w.cat === currentVocabCat);
+        const matchSearch = !currentVocabSearch ||
+          w.kana.includes(currentVocabSearch) ||
+          w.romaji.toLowerCase().includes(currentVocabSearch) ||
+          w.es.toLowerCase().includes(currentVocabSearch);
+        return matchCat && matchSearch;
+      });
+
+      if (filtered.length === 0) {
+        grid.innerHTML = `<div style="grid-column: 1 / -1; text-align:center; padding:2rem 0; color:var(--slate-500); font-weight:700;">No hay palabras que coincidan.</div>`;
+        return;
+      }
+
+      grid.innerHTML = filtered.map(w => `
+        <div class="vocab-card">
+          <div>
+            <div class="vocab-main font-kana">${w.kana}</div>
+            <div class="vocab-reading">${w.romaji}</div>
+            <div class="vocab-meaning">${w.es}</div>
+          </div>
+          <button onclick="speak('${w.kana}')" class="audio-btn" title="Pronunciar">🔊</button>
+        </div>
+      `).join('');
+    }
+
+    /* ==========================================================================
+8. TARJETAS 3D (FLASHCARDS)
+       ========================================================================== */
+    function renderFlashcard() {
+      const item = deck[cardIdx];
+      document.getElementById('fc-counter').textContent = `Tarjeta ${cardIdx + 1} de ${deck.length}`;
+      document.getElementById('fc-f-romaji').textContent = item.romaji;
+      document.getElementById('fc-f-svg').innerHTML = item.drawSVG(1.0, 0.0);
+
+      document.getElementById('fc-b-kana').textContent = item.kana;
+      document.getElementById('fc-b-romaji').textContent = `/${item.romaji}/`;
+      document.getElementById('fc-b-badge').textContent = item.word.toUpperCase();
+      document.getElementById('fc-b-svg').innerHTML = item.drawSVG(1.0, 0.85);
+      document.getElementById('fc-b-mnemonic').textContent = item.desc;
+
+      const el = document.getElementById('flashcard-element');
+      el.classList.remove('flipped');
+      isFlipped = false;
+    }
+
+    function flipFlashcard() {
+      const el = document.getElementById('flashcard-element');
+      isFlipped = !isFlipped;
+      el.classList.toggle('flipped', isFlipped);
+    }
+
+    function nextCard() {
+      cardIdx = (cardIdx + 1) % deck.length;
+      renderFlashcard();
+    }
+
+    function prevCard() {
+      cardIdx = (cardIdx - 1 + deck.length) % deck.length;
+      renderFlashcard();
+    }
+
+    function shuffleDeck() {
+      deck.sort(() => Math.random() - 0.5);
+      cardIdx = 0;
+      renderFlashcard();
+      showToast('¡Tarjetas mezcladas!');
+    }
+
+    function playCurrentKanaAudio() {
+      speak(deck[cardIdx].kana);
+    }
+
+    /* ==========================================================================
+9. PIZARRA DE TRAZO INTERACTIVA
+       ========================================================================== */
+    function initCanvas() {
+      canvas = document.getElementById('drawing-canvas');
+      if (!canvas) return;
+      ctx = canvas.getContext('2d');
+
+      const rect = canvas.getBoundingClientRect();
+      canvas.width = rect.width * 2;
+      canvas.height = rect.height * 2;
+      ctx.scale(2, 2);
+
+      ctx.lineCap = 'round';
+      ctx.lineJoin = 'round';
+      ctx.lineWidth = 14;
+      ctx.strokeStyle = '#e11d48';
+
+      // Eventos ratón
+      canvas.onmousedown = (e) => {
+        isDrawing = true;
+        const r = canvas.getBoundingClientRect();
+        lastX = e.clientX - r.left;
+        lastY = e.clientY - r.top;
+      };
+      window.onmousemove = (e) => {
+        if (!isDrawing) return;
+        const r = canvas.getBoundingClientRect();
+        const x = e.clientX - r.left;
+        const y = e.clientY - r.top;
+        ctx.beginPath();
+        ctx.moveTo(lastX, lastY);
+        ctx.lineTo(x, y);
+        ctx.stroke();
+        lastX = x;
+        lastY = y;
+      };
+      window.onmouseup = () => isDrawing = false;
+
+      // Eventos táctiles móviles
+      canvas.ontouchstart = (e) => {
+        e.preventDefault();
+        isDrawing = true;
+        const touch = e.touches[0];
+        const r = canvas.getBoundingClientRect();
+        lastX = touch.clientX - r.left;
+        lastY = touch.clientY - r.top;
+      };
+      canvas.ontouchmove = (e) => {
+        e.preventDefault();
+        if (!isDrawing) return;
+        const touch = e.touches[0];
+        const r = canvas.getBoundingClientRect();
+        const x = touch.clientX - r.left;
+        const y = touch.clientY - r.top;
+        ctx.beginPath();
+        ctx.moveTo(lastX, lastY);
+        ctx.lineTo(x, y);
+        ctx.stroke();
+        lastX = x;
+        lastY = y;
+      };
+      canvas.ontouchend = () => isDrawing = false;
+
+      updatePizarraGuide();
+    }
+
+    function clearCanvas() {
+      if (ctx && canvas) ctx.clearRect(0, 0, canvas.width, canvas.height);
+    }
+
+    function updatePizarraGuide() {
+      const box = document.getElementById('pizarra-guide');
+      if (box && pizarraKana) {
+        box.innerHTML = pizarraKana.drawSVG(0.3, 0.4);
+      }
+    }
+
+    function togglePizarraGuide() {
+      showGuide = !showGuide;
+      const el = document.getElementById('pizarra-guide');
+      const btn = document.getElementById('btn-guide-toggle');
+      if (showGuide) {
+        el.style.opacity = '0.35';
+        btn.textContent = 'Ocultar Guía';
+      } else {
+        el.style.opacity = '0';
+        btn.textContent = 'Mostrar Guía';
+      }
+    }
+
+    function changePizarraTarget(kanaChar) {
+      const item = KANA_DATA.find(k => k.kana === kanaChar);
+      if (!item) return;
+      pizarraKana = item;
+      clearCanvas();
+      updatePizarraGuide();
+      speak(item.kana);
+    }
+
+    function nextPizarraKana() {
+      const idx = KANA_DATA.findIndex(k => k.kana === pizarraKana.kana);
+      const next = KANA_DATA[(idx + 1) % KANA_DATA.length];
+      document.getElementById('pizarra-select').value = next.kana;
+      changePizarraTarget(next.kana);
+    }
+
+    function playPizarraAudio() {
+      if (pizarraKana) speak(pizarraKana.kana);
+    }
+
+    /* ==========================================================================
+10. AUDIO Y NOTIFICACIONES
+       ========================================================================== */
+    function speak(text) {
+      try {
+        if ('speechSynthesis' in window) {
+          window.speechSynthesis.cancel();
+          const u = new SpeechSynthesisUtterance(text);
+          u.lang = 'ja-JP';
+          u.rate = 0.85;
+          window.speechSynthesis.speak(u);
+        }
+      } catch (err) {}
+    }
+
+    function showToast(msg) {
+      const t = document.getElementById('toast');
+      t.textContent = msg;
+      t.style.opacity = '1';
+      setTimeout(() => { t.style.opacity = '0'; }, 2200);
+    }
+
+    /* ==========================================================================
+11. INICIALIZACIÓN
+       ========================================================================== */
+    window.addEventListener('DOMContentLoaded', () => {
+      renderFilters();
+      renderCards();
+      renderVocabCategories();
+      renderVocabList();
+
+      const sel = document.getElementById('pizarra-select');
+      sel.innerHTML = KANA_DATA.map(k => `
+        <option value="${k.kana}">${k.kana} (${k.romaji}) - ${k.word}</option>
+      `).join('');
+
+      window.addEventListener('resize', () => {
+        if (currentTab === 'pizarra') initCanvas();
+      });
+    });
+  </script>
+</body>
+</html>
